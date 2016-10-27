@@ -14,41 +14,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package render
+/*
+VU executable.
+*/
+package main
 
-type Render interface {
-	Render(data.
-	AstNode tree)
+import (
+	"flag"
+	"log"
+	"net/http"
+
+	"github.com/bowei/vu/ui"
+)
+
+// Params from the command line.
+type Params struct {
+	// HTTP listen address.
+	HTTP string
 }
 
-func (l *Line) ToStr() string {
-	return l.Content
-}
+func main() {
+	params := parseArgs()
 
-type Render struct {
-	Lines []Line
-}
+	WebUI := ui.WebUI{}
+	WebUI.Setup()
 
-func (render *Render) ToStr() string {
-	str := ""
+	log.Printf("params %+v\n", params)
 
-	for i := range render.Lines {
-		str += render.Lines[i].ToStr()
-		str += "\n"
+	server := &http.Server{
+		Addr: params.HTTP,
 	}
-	return str
+	log.Fatal(server.ListenAndServe())
 }
 
-// NewFromStr creates a new Render from string
-func NewFromStr(contents string) *Render {
-	return &Render{
-		Lines: []Line{
-			Line{
-				Content: "one",
-			},
-			Line{
-				Content: "two",
-			},
-		},
-	}
+func parseArgs() *Params {
+	params := &Params{}
+	flag.StringVar(&params.Http, "http", ":9800", "http server")
+
+	return params
 }

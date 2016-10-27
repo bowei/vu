@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<p id="cpareax" style="background-color: red">
+		a bunch of text
+	</p>
+	<input id="cparea" />
+
+	<script>
+        console.log('h')
+        /*
+        $('#cparea').on('paste', function (event) {
+            var element = this;
+            console.log('cpareax')            
+            console.log(element)
+            console.log(event.originalEvent.clipboardData.getData('text'))
+
+            return false
+        });*/
+        $('#cpareax').on('paste', function (event) {
+            var element = this;
+            console.log('cpareax')
+            console.log(element)
+            console.log(event.originalEvent.clipboardData.getData('text'))
+
+            return false
+        });
+    </script>
+</body>
