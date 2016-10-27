@@ -1,17 +1,17 @@
 /*
-   Copyright 2016 Bowei Du
+Copyright 2016 Bowei Du
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 /*
@@ -22,66 +22,20 @@ the final output.
 */
 package ast
 
-// An AstNode in a parse tree.
-type AstNode interface {
-	// Tag e.g. type of the AstNode.
-	Tag() string
-	// Unique ID of the AstNode.
-	ID() string
-	// Start offset in bytes of the original text.
-	Start() int
-	// End offset (not inclusive) of the original text.
-	End() int
+// Location is a source location [start, end).
+type Location struct {
+	Start int
+	End   int
+}
 
-	// Children nodes of this AstNode.
-	Children() []AstNode
+// An Node in a parse tree.
+type Node interface {
+	// Location offset in the source.
+	Location() Location
 
 	// Attributes are generic key/value pairs.
 	Attributes() map[string]string
-}
 
-// MutableAstNode is used to create the Ast tree.
-type MutableAstNode struct {
-	tag string
-	id  string
-
-	start int
-	end   int
-
-	children   []MutableAstNode
-	attributes map[string]string
-}
-
-// Tag e.g. type of the AstNode.
-func (n *MutableAstNode) Tag() string {
-	return n.tag
-}
-
-// ID of the AstNode.
-func (n *MutableAstNode) ID() string {
-	return n.id
-}
-
-// Start offset in bytes of the original text.
-func (n *MutableAstNode) Start() int {
-	return n.start
-}
-
-// End offset (not inclusive) of the original text.
-func (n *MutableAstNode) End() int {
-	return n.end
-}
-
-// Children nodes of this AstNode.
-func (n *MutableAstNode) Children() []AstNode {
-	ret := make([]AstNode, 0, len(n.children))
-	for i := range n.children {
-		ret = append(ret, &n.children[i])
-	}
-	return ret
-}
-
-// Attributes are generic key/value pairs.
-func (n *MutableAstNode) Attributes() map[string]string {
-	return n.attributes
+	// String representation
+	String() string
 }
